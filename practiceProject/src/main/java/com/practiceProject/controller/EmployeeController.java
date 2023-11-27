@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.practiceProject.Dto.EmployeeDto;
 import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
@@ -31,7 +32,6 @@ public class EmployeeController {
 		return "Welcome";
 
 	}
-
 	@PostMapping("/addEmployee")
 	public ResponseEntity<?> addEmployee(@RequestBody EmployeeDto emp) {
 		log.info("Inside EmployeeController ==> addEmployee() " + emp);
@@ -52,6 +52,21 @@ public class EmployeeController {
 
 		return ResponseEntity.ok (response);
 
+	}
+	@GetMapping("findAllproject")
+	public ResponseEntity<Object> getAllProject() {
+		//StatusDto responseDto = new StatusDto();
+		List<Employee>list=new ArrayList<Employee>();
+
+//		LOGGER.info("Received getAllProject request");
+		try {
+			list = employeeService.findAllEmployee();
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+//			LOGGER.error("Error occurred during getAllProject: {}", e.getMessage(), e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred during getAllProject");
+		}
 	}
 
 }

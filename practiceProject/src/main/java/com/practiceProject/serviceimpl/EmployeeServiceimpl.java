@@ -1,8 +1,10 @@
 package com.practiceProject.serviceimpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.practiceProject.Dto.EmployeeDto;
 import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
@@ -72,4 +74,58 @@ public class EmployeeServiceimpl implements EmployeeService {
 		return response;
 	}
 
+	@Override
+	public List<Employee> findAllEmployee() {
+		List<Employee> emp1=employeeRepo.findAll();
+		return emp1;
+	}
+
+	@Override
+	public StatusDto removeEmployeeByEmpId(String empId) {
+		StatusDto responseDto = new StatusDto();
+		Employee employee=null;
+		try {
+			if (empId != null) {
+			  employee = employeeRepo.findByempId(employee.getEmpId());
+				if (employee == null) {
+					responseDto.setCode(empId);
+					responseDto.setMessage("Employee Id should not found");
+
+				} else {
+					employee.setDeletedFlag("True");
+					employeeRepo.save(employee);
+					responseDto.setCode("200");
+					responseDto.setMessage("Employee Deactiveted");
+
+				}
+			} else {
+				responseDto.setCode("100");
+				responseDto.setMessage("Employee Id should not null");
+
+			}
+		} catch (Exception e) {
+			//log.error("Error inprojectServiceImpl deactivateProject: {}", e.getMessage());
+//			responseDto.setResponseCode(Constants.TSA101);
+//			responseDto.setResponseMessage(Constants.INTERNAL_SERVER_ERROR);
+            System.out.println(e);
+		}
+		return responseDto;
+
+	}
+
+	@Override
+	public List<Employee> findEmployeeByrole(int role) {
+		    try {
+		        // Retrieve the list of projects by projectId
+		        List<Employee> list = employeeRepo.findemployeeByrole(role);
+		        return list;
 }
+		    catch(Exception e) {
+		    	System.out.println(e);
+		    }
+		    return null;
+		    
+	}
+}
+
+	

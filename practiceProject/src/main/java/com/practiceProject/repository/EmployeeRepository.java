@@ -1,5 +1,7 @@
 package com.practiceProject.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +10,6 @@ import com.practiceProject.model.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	public Employee findByempId(String empId); 
+	public List<Employee> findemployeeByrole(int role);
 
 }
