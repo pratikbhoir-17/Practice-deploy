@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.apache.log4j.Logger;
 import com.practiceProject.Dto.EmployeeDto;
 import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
@@ -21,10 +20,10 @@ import com.practiceProject.util.Constants;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidatorFactory;
-import lombok.extern.log4j.Log4j;
+
 
 @RestController
-@Log4j
+
 public class EmployeeController {
 	@Autowired
 	public EmployeeService employeeService;
@@ -36,7 +35,8 @@ public class EmployeeController {
 	}
 	@PostMapping("/addEmployee")
 	public ResponseEntity<?> addEmployee(@RequestBody EmployeeDto emp) {
-		log.info("Inside EmployeeController ==> addEmployee() " + emp);
+		 Logger logger = Logger.getLogger(EmployeeController.class);
+		 logger.info("Inside EmployeeController ==> addEmployee() " + emp);
 		 List<StatusDto> reslist = new ArrayList<StatusDto>();
 		 StatusDto response = new StatusDto();
 		ValidatorFactory factory = jakarta.validation.Validation.buildDefaultValidatorFactory();
@@ -46,6 +46,7 @@ public class EmployeeController {
 			response.setCode(Constants.ADSS100);
 			response.setMessage(violation.getMessage());
 			reslist.add(response);
+			logger.error(violations);
 			return ResponseEntity.ok(reslist);
 		}
 		if (reslist.isEmpty()) {
@@ -74,11 +75,11 @@ public class EmployeeController {
 	
 	@GetMapping("deleteemployee/{empId}")
 	public ResponseEntity<Object> deactivateProject(
-			@PathVariable String empId) {
+			@RequestBody EmployeeDto dto) {
 		StatusDto responseDto = new StatusDto();
 
 		try {
-			responseDto = employeeService.removeEmployeeByEmpId(empId);
+			responseDto = employeeService.removeEmployeeByEmpId(dto);
 
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

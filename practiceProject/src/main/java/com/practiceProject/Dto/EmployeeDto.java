@@ -9,7 +9,7 @@ import lombok.ToString;
 
 public class EmployeeDto {
 	public int id;
-	@Size(min = 5, max = 20, message = "fullName must be between 5 and 20 character")
+	@Size(min = 5, max = 70, message = "fullName must be 5 character")
 	@Pattern(regexp = "[^0-9]*", message = "fullName must not contain numbers")
 	@NotBlank(message = "fullName is mandatory field")
 	private String fullName;

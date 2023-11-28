@@ -9,7 +9,8 @@ import com.practiceProject.model.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
-	public Employee findByempId(String empId); 
-	public List<Employee> findemployeeByrole(int role);
+	public List<Employee> findByempId(String empId); 
+	public List<Employee> findByrole(int role);
+	public Employee findBymailId(String mailId);
 
 }

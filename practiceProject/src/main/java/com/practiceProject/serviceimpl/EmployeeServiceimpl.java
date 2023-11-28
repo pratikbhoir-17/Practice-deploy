@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.practiceProject.Dto.EmployeeDto;
+import com.practiceProject.Dto.ListAllUser;
 import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
 import com.practiceProject.repository.EmployeeRepository;
@@ -24,7 +25,7 @@ public class EmployeeServiceimpl implements EmployeeService {
 	public StatusDto addEmp(EmployeeDto emp) {
 		log.info("Executing:Employee Service:" + emp);
 		Employee employee = new Employee();
-		Employee emp1=employeeRepo.findByempId(emp.getEmpId());
+		Employee emp1=employeeRepo.findBymailId(emp.getMailId());
 		StatusDto response = new StatusDto();
 		try {
 			if (emp1 != null) {//we can add update APi in this block if we need it
@@ -76,19 +77,22 @@ public class EmployeeServiceimpl implements EmployeeService {
 
 	@Override
 	public List<Employee> findAllEmployee() {
+//		List<EmployeeDto> userDtoList = new ArrayList<>();
+//		ListAllUser resultDto = new ListAllUser();
+		
 		List<Employee> emp1=employeeRepo.findAll();
 		return emp1;
 	}
 
 	@Override
-	public StatusDto removeEmployeeByEmpId(String empId) {
+	public StatusDto removeEmployeeByEmpId(EmployeeDto dto) {
 		StatusDto responseDto = new StatusDto();
 		Employee employee=null;
 		try {
-			if (empId != null) {
-			  employee = employeeRepo.findByempId(employee.getEmpId());
+			if (dto.getMailId() != null) {
+			  employee = employeeRepo.findBymailId(dto.getMailId());
 				if (employee == null) {
-					responseDto.setCode(empId);
+					responseDto.setCode("101");
 					responseDto.setMessage("Employee Id should not found");
 
 				} else {
@@ -117,7 +121,7 @@ public class EmployeeServiceimpl implements EmployeeService {
 	public List<Employee> findEmployeeByrole(int role) {
 		    try {
 		        // Retrieve the list of projects by projectId
-		        List<Employee> list = employeeRepo.findemployeeByrole(role);
+		        List<Employee> list = employeeRepo.findByrole(role);
 		        return list;
 }
 		    catch(Exception e) {
