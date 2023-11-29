@@ -91,4 +91,8 @@ public interface Constants extends DaoConstants {
 	public static final String TotalCargo_Null = "TotalCargo Should Not Be Null or Empty";
 	public static final String ShipAuthSign_Null = "ShipAuthSign Should Not Be Null or Empty";
 	public static final String PortAuthSign_Null = "PortAuthSign Should Not Be Null or Empty";
+	public static final String INVALID_USERNAME_PASSWORD = "invalid username and password";
+	public static final String APPROVAL_NEEDED = "Approval needed";
+	public static final String USER_NOT_EXISTS_OR_DELETED = "User not exits or user is deleted";
+	public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
 }

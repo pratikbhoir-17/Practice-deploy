@@ -31,6 +31,11 @@ public class EmployeeDto {
 	@Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,30})$")
 	@NotBlank(message = "mailId is mandatory field")
 	private String mailId;
+	@Size(min =6, max = 20, message = "fullName must be 5 character")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{6,20}$", message = "fullName must not contain numbers")
+	@NotBlank(message = "fullName is mandatory field")
+	private String password;
+	private String approvedFlag;
 	public int getId() {
 		return id;
 	}
@@ -91,11 +96,26 @@ public class EmployeeDto {
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getApprovedFlag() {
+		return approvedFlag;
+	}
+	public void setApprovedFlag(String approvedFlag) {
+		this.approvedFlag = approvedFlag;
+	}
 	@Override
 	public String toString() {
 		return "EmployeeDto [id=" + id + ", fullName=" + fullName + ", empId=" + empId + ", phoneNo=" + phoneNo
 				+ ", designation=" + designation + ", address=" + address + ", deletedFlag=" + deletedFlag + ", role="
-				+ role + ", joiningDate=" + joiningDate + ", mailId=" + mailId + "]";
+				+ role + ", joiningDate=" + joiningDate + ", mailId=" + mailId + ", password=" + password
+				+ ", approvedFlag=" + approvedFlag + "]";
 	}
+	
 
 }

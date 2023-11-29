@@ -1,12 +1,16 @@
 package com.practiceProject.serviceimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import com.practiceProject.Dto.EmployeeDto;
-import com.practiceProject.Dto.ListAllUser;
+import com.practiceProject.Dto.LoginDto;
+import com.practiceProject.Dto.Message;
 import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
 import com.practiceProject.repository.EmployeeRepository;
@@ -20,6 +24,8 @@ import lombok.extern.log4j.Log4j;
 public class EmployeeServiceimpl implements EmployeeService {
 	@Autowired
 	public EmployeeRepository employeeRepo;
+	
+	
 
 	@Override
 	public StatusDto addEmp(EmployeeDto emp) {
@@ -55,6 +61,8 @@ public class EmployeeServiceimpl implements EmployeeService {
 				employee.setDeletedFlag("False");
 				employee.setJoiningDate(emp.getJoiningDate());
 				employee.setDesignation(emp.getDesignation());
+				employee.setPassword(emp.getPassword());
+				employee.setApprovedFlag("False");
 				if(emp.getDesignation()=="HR"||emp.getDesignation()=="Admin") {
 				employee.setRole(0);
 				}
@@ -130,6 +138,8 @@ public class EmployeeServiceimpl implements EmployeeService {
 		    return null;
 		    
 	}
+
+	
 }
 
 	

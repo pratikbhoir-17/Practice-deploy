@@ -11,6 +11,7 @@ public class StatusDto {
 private String token;
 private String message;
 private String code;
+private int role;
 public String getToken() {
 	return token;
 }
@@ -29,16 +30,18 @@ public String getCode() {
 public void setCode(String code) {
 	this.code = code;
 }
+
+public int getRole() {
+	return role;
+}
+public void setRole(int role) {
+	this.role = role;
+}
 @Override
 public String toString() {
-	return "StatusDto [token=" + token + ", message=" + message + ", code=" + code + "]";
+	return "StatusDto [token=" + token + ", message=" + message + ", code=" + code + ", role=" + role + "]";
 }
-//public StatusDto(String token, String message, String code) {
-//	super();
-//	this.token = token;
-//	this.message = message;
-//	this.code = code;
-//}
+
 
 
 }
