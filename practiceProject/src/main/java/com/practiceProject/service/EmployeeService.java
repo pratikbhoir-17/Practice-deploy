@@ -14,7 +14,7 @@ public StatusDto addEmp(EmployeeDto emp);
 public List<Employee> findAllEmployee();
 public StatusDto removeEmployeeByEmpId(EmployeeDto dto);
 public List<Employee> findEmployeeByrole(int role);
-//public ResponseEntity<?> login(LoginDto dto);
-//public StatusDto userApproval(EmployeeDto emp);
+public StatusDto login(LoginDto dto);
+public StatusDto userApproval(EmployeeDto emp);
 
 }

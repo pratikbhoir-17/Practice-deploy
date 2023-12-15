@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import com.practiceProject.Dto.EmployeeDto;
 import com.practiceProject.Dto.LoginDto;
@@ -137,6 +135,32 @@ public class EmployeeServiceimpl implements EmployeeService {
 		    }
 		    return null;
 		    
+	}
+
+	@Override
+	public StatusDto login(LoginDto dto) {
+		Employee emp=null;
+		StatusDto response=new StatusDto();
+		emp=employeeRepo.findBymailIdAndPassword(dto.getMailId(), dto.getPassword());
+		if (emp == null) {
+			response.setCode(Constants.ADSS101);
+			//response.setStatus(Constants.FAIL);
+			response.setMessage(Constants.INVALID_USER);
+			//throw new UsernameNotFoundException("User not found with username: " + request.getUsername());
+		} else {
+		
+			response.setCode(Constants.ADSS200);
+					//emp.setStatus(Constants.SUCCESS);
+					response.setMessage(Constants.LOGIN_SUCCESSFULL);
+		}
+		
+		return response;
+	}
+
+	@Override
+	public StatusDto userApproval(EmployeeDto emp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

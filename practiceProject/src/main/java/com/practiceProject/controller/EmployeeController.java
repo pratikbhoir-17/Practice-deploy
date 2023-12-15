@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.log4j.Logger;
 import com.practiceProject.Dto.EmployeeDto;
+import com.practiceProject.Dto.LoginDto;
 import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
 import com.practiceProject.service.EmployeeService;
@@ -33,6 +34,30 @@ public class EmployeeController {
 		return "Welcome";
 
 	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?>login(@RequestBody LoginDto dto) {
+		Employee emp = new Employee();
+		Logger logger = Logger.getLogger(EmployeeController.class);
+		 logger.info("Inside EmployeeController ==> login Api" + dto);
+		StatusDto response = new StatusDto();
+			try {
+				response = employeeService.login(dto);
+			} catch (Exception e1) {
+				//response.setJwttoken("");
+				//response.setStatus(Constants.FAIL);
+				response.setCode(Constants.ADSS101);
+				response.setMessage(Constants.INVALID_EMAIL);
+				//log.error(response);
+				// }
+			}
+		
+		
+		return ResponseEntity.ok(response);
+		
+		
+	}
+	
 	@PostMapping("/addEmployee")
 	public ResponseEntity<?> addEmployee(@RequestBody EmployeeDto emp) {
 		 Logger logger = Logger.getLogger(EmployeeController.class);
