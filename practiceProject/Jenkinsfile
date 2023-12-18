@@ -6,6 +6,7 @@ pipeline{
        stages {
           stage("compile and run"){
             steps {
+              checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://Prajwal-1612@bitbucket.org/puchesandtimesheet/practiceproject.git']])
               sh  "mvn clean install"
               }
             }
