@@ -1,12 +1,12 @@
 pipeline{
        agent any
        tools {
-          maven "17.0.9"
+          maven "3.6.3"
+          jdk   "17.0.9"
      }
        stages {
           stage("compile and run"){
             steps {
-              checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://Prajwal-1612@bitbucket.org/puchesandtimesheet/practiceproject.git']])
               sh  "mvn clean install"
               }
             }
