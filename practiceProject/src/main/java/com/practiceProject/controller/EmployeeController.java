@@ -3,7 +3,14 @@ package com.practiceProject.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import org.apache.log4j.Logger;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +24,20 @@ import com.practiceProject.Dto.StatusDto;
 import com.practiceProject.model.Employee;
 import com.practiceProject.service.EmployeeService;
 import com.practiceProject.util.Constants;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ValidatorFactory;
+
 
 
 @RestController
 public class EmployeeController {
 	@Autowired
 	public EmployeeService employeeService;
+	
+	final Logger log = LogManager.getLogger(EmployeeController.class);
 
-	@PostMapping("/")
+	@GetMapping("/")
 	public String Testing() {
+		
+		log.info("Inside welcome ==> login Api");
 		return "Welcome";
 
 	}
@@ -35,8 +45,8 @@ public class EmployeeController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDto dto) {
 		Employee emp = new Employee();
-		Logger logger = Logger.getLogger(EmployeeController.class);
-		logger.info("Inside EmployeeController ==> login Api" + dto);
+		final org.apache.logging.log4j.Logger log = LogManager.getLogger(EmployeeController.class);
+		log.info("Inside EmployeeController ==> login Api" + dto);
 		StatusDto response = new StatusDto();
 		try {
 			response = employeeService.login(dto);
@@ -53,18 +63,17 @@ public class EmployeeController {
 
 	@PostMapping("/addEmployee")
 	public ResponseEntity<?> addEmployee(@RequestBody EmployeeDto emp) {
-		Logger logger = Logger.getLogger(EmployeeController.class);
-		logger.info("Inside EmployeeController ==> addEmployee() " + emp);
+		log.info("Inside EmployeeController ==> addEmployee() " + emp);
 		List<StatusDto> reslist = new ArrayList<StatusDto>();
 		StatusDto response = new StatusDto();
-		ValidatorFactory factory = jakarta.validation.Validation.buildDefaultValidatorFactory();
-		jakarta.validation.Validator validator = factory.getValidator();
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<EmployeeDto>> violations = validator.validate(emp);
 		for (ConstraintViolation<EmployeeDto> violation : violations) {
 			response.setCode(Constants.ADSS100);
 			response.setMessage(violation.getMessage());
 			reslist.add(response);
-			logger.error(violations);
+			log.error(violations);
 			return ResponseEntity.ok(reslist);
 		}
 		if (reslist.isEmpty()) {
@@ -76,16 +85,16 @@ public class EmployeeController {
 
 	@GetMapping("findAllemployee")
 	public ResponseEntity<Object> getAllEmployee() {
-		Logger logger = Logger.getLogger(EmployeeController.class);
+		
 		// StatusDto responseDto = new StatusDto();
 		List<Employee> list = new ArrayList<Employee>();
 
-		logger.info("Received getAllProject request");
+		log.info("Received getAllProject request");
 		try {
 			list = employeeService.findAllEmployee();
 			return ResponseEntity.ok(list);
 		} catch (Exception e) {
-			logger.error("Error occurred during getAllProject: {}", e);
+			log.error("Error occurred during getAllProject: {}", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("An error occurred during getAllProject");
 		}

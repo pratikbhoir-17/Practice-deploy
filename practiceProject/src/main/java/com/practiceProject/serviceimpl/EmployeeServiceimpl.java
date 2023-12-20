@@ -2,6 +2,8 @@ package com.practiceProject.serviceimpl;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,6 @@ import com.practiceProject.util.Constants;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@Log4j
 public class EmployeeServiceimpl implements EmployeeService {
 	@Autowired
 	public EmployeeRepository employeeRepo;
@@ -27,6 +28,7 @@ public class EmployeeServiceimpl implements EmployeeService {
 
 	@Override
 	public StatusDto addEmp(EmployeeDto emp) {
+		final Logger log = LogManager.getLogger(EmployeeServiceimpl.class);
 		log.info("Executing:Employee Service:" + emp);
 		Employee employee = new Employee();
 		Employee emp1=employeeRepo.findBymailId(emp.getMailId());
